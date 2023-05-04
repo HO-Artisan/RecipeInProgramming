@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "rip",
+  "version": "${version}",
+
+  "name": "RecipeInProgramming",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "HO-Artisan"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "AGPL v3.0",
+  "icon": "assets/modid/icon.png",
+  "accessWidener" : "rip.accesswidener",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ho.artisan.lib.recipe.RIP"
+    ]
+  },
+  "mixins": [
+    "rip.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": "*",
+    "fabric-api": "*",
+    "minecraft": "*",
+    "java": ">=16"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

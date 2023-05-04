@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ho.artisan.lib.recipe.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "CookingRecipeSerializerMixin",
+    "CuttingRecipeSerializerMixin",
+    "RecipeManagerMixin",
+    "ShapedRecipeSerializerMixin",
+    "ShapelessRecipeSerializerMixin",
+    "SmithingRecipeAccessor",
+    "SmithingRecipeSerializerMixin",
+    "SpecialRecipeSerializerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
