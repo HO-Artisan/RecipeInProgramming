@@ -12,3 +12,7 @@ Now Support:
 - Cutting Recipe；
 - Smithing Recipe；
 - Any of the recipes that use json!
+
+---------
+
+How to use it: [Here](https://modder.wiki.quiltmc.org/versions/1.19/data/recipes/recipe_api/)
