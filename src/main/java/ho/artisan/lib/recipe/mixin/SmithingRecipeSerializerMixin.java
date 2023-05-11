@@ -17,7 +17,6 @@
 package ho.artisan.lib.recipe.mixin;
 
 import com.google.gson.JsonObject;
-import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.data.server.recipe.SmithingRecipeJsonBuilder;

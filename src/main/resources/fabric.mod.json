@@ -26,7 +26,7 @@
   "depends": {
     "fabricloader": "*",
     "fabric-api": "*",
-    "minecraft": "*",
+    "minecraft": "1.18.x",
     "java": ">=16"
   },
   "breaks": {
