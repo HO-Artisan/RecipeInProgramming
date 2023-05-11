@@ -2,19 +2,17 @@
   "schemaVersion": 1,
   "id": "rip",
   "version": "${version}",
-
   "name": "RecipeInProgramming",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "A Lib mod, Take the add Recipe(Data) function to fabric event, so you can use the event to register recipes, and make some JSON can't do contents(Infinity Recipes).",
   "authors": [
     "HO-Artisan"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/HO-Artisan/RecipeInProgramming",
+    "sources": "https://github.com/HO-Artisan/RecipeInProgramming"
   },
-
   "license": "AGPL v3.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/rip/icon.png",
   "accessWidener" : "rip.accesswidener",
   "environment": "*",
   "entrypoints": {
@@ -25,14 +23,14 @@
   "mixins": [
     "rip.mixins.json"
   ],
-
   "depends": {
     "fabricloader": "*",
     "fabric-api": "*",
     "minecraft": "*",
     "java": ">=16"
   },
-  "suggests": {
-    "another-mod": "*"
+  "breaks": {
+    "quilt_loader": "*",
+    "quilt_recipe": "*"
   }
 }
