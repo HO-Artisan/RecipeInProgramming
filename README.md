@@ -12,7 +12,22 @@ Un-support Quilt, Because Quilt was added this feature, I port it to Fabric.
 </div>
 </center>
 
---------
+## Use in your project
+We use jitpack maven (Temporary)
+
+```groovy
+
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    modImplementation "com.github.HO-Artisan:RecipeInProgramming:Tag"
+}
+
+```
+
+## Features
 
 Now Support:
 - Shaped Crafting；
@@ -21,7 +36,5 @@ Now Support:
 - Cutting Recipe；
 - Smithing Recipe；
 - Any of the recipes that use json!
-
----------
 
 How to use it: [Quilt Recipe API Wiki](https://modder.wiki.quiltmc.org/versions/1.19/data/recipes/recipe_api/)
