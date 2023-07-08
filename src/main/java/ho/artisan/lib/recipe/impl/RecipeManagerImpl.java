@@ -55,8 +55,8 @@ public final class RecipeManagerImpl implements DynamicRegistrySetupCallback {
 	 * loaded.
 	 */
 	private static final Map<Identifier, Recipe<?>> STATIC_RECIPES = new Object2ObjectOpenHashMap<>();
-	static final boolean DEBUG_MODE = Boolean.getBoolean("quilt.recipe.debug");
-	private static final boolean DUMP_MODE = Boolean.getBoolean("quilt.recipe.dump");
+	static final boolean DEBUG_MODE = Boolean.getBoolean("rip.recipe.debug");
+	private static final boolean DUMP_MODE = Boolean.getBoolean("rip.recipe.dump");
 	static final Logger LOGGER = LogUtils.getLogger();
 	private static DynamicRegistryManager currentRegistryManager;
 
@@ -107,7 +107,7 @@ public final class RecipeManagerImpl implements DynamicRegistrySetupCallback {
 
 	@SuppressWarnings("unchecked")
 	private static void dump(Map<Identifier, Recipe<?>> recipes) {
-		Path debugPath = Paths.get("debug", "quilt", "recipe").normalize();
+		Path debugPath = Paths.get("debug", "rip", "recipe").normalize();
 
 		if (!Files.exists(debugPath)) {
 			try {
