@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2023 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.SmithingRecipe;
+import net.minecraft.recipe.SmithingTransformRecipe;
 
-@Mixin(SmithingRecipe.class)
-public interface SmithingRecipeAccessor {
+@Mixin(SmithingTransformRecipe.class)
+public interface TransformSmithingRecipeAccessor {
+	@Accessor
+	Ingredient getTemplate();
+
 	@Accessor
 	Ingredient getBase();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Quilt Project
+ * Copyright 2023 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,24 @@
 package ho.artisan.lib.recipe.mixin;
 
 import com.google.gson.JsonObject;
+
 import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.recipe.SmithingTransformRecipe;
+import net.minecraft.data.server.recipe.SmithingTransformRecipeJsonBuilder;
 
-@Mixin(ShapelessRecipe.Serializer.class)
-public abstract class ShapelessRecipeSerializerMixin implements FabricRecipeSerializer<ShapelessRecipe> {
+@Mixin(SmithingTransformRecipe.Serializer.class)
+public abstract class TransformSmithingRecipeJsonProviderMixin implements FabricRecipeSerializer<SmithingTransformRecipe> {
 	@Override
-	public JsonObject toJson(ShapelessRecipe recipe) {
-		var result = recipe.getOutput(null);
-
-		return new ShapelessRecipeJsonBuilder.ShapelessRecipeJsonProvider(recipe.getId(),
-				result.getItem(), result.getCount(),
-				recipe.getGroup(), recipe.getCategory(), recipe.getIngredients(), null, null)
-				.toJson();
+	public JsonObject toJson(SmithingTransformRecipe recipe) {
+		var accessor = (TransformSmithingRecipeAccessor) recipe;
+		return new SmithingTransformRecipeJsonBuilder.SmithingTransformRecipeJsonProvider(
+				recipe.getId(),
+				this,
+				accessor.getTemplate(), accessor.getBase(), accessor.getAddition(),
+				recipe.getOutput(null).getItem(),
+				null, null
+		).toJson();
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2023 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,25 @@
 package ho.artisan.lib.recipe.mixin;
 
 import com.google.gson.JsonObject;
-import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.minecraft.data.server.recipe.SmithingRecipeJsonBuilder;
-import net.minecraft.recipe.SmithingRecipe;
+import net.minecraft.data.server.recipe.SmithingTrimRecipeJsonBuilder;
+import net.minecraft.recipe.SmithingTrimRecipe;
 
 import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 
-@Mixin(SmithingRecipe.Serializer.class)
-public abstract class SmithingRecipeSerializerMixin implements FabricRecipeSerializer<SmithingRecipe> {
+@Mixin(SmithingTrimRecipe.Serializer.class)
+public abstract class TrimSmithingRecipeSerializerMixin implements FabricRecipeSerializer<SmithingTrimRecipe> {
 	@Override
-	public JsonObject toJson(SmithingRecipe recipe) {
-		var accessor = (SmithingRecipeAccessor) recipe;
+	public JsonObject toJson(SmithingTrimRecipe recipe) {
+		var accessor = (TrimSmithingRecipeAccessor) recipe;
 
-		return new SmithingRecipeJsonBuilder.SmithingRecipeJsonProvider(
+		return new SmithingTrimRecipeJsonBuilder.SmithingTrimRecipeJsonProvider(
 				recipe.getId(),
 				this,
-				accessor.getBase(), accessor.getAddition(), recipe.getOutput().getItem(),
-				null, null
+				accessor.getTemplate(), accessor.getBase(), accessor.getAddition(),
+				null,
+				null
 		).toJson();
 	}
 }

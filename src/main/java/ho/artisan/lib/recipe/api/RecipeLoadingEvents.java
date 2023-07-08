@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,17 @@ package ho.artisan.lib.recipe.api;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import net.fabricmc.fabric.api.event.EventFactory;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 
 import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 
 /**
  * Represents the recipe loading events.
@@ -107,6 +110,12 @@ public final class RecipeLoadingEvents {
 			 * @param factory the recipe factory
 			 */
 			void register(Identifier id, Function<Identifier, Recipe<?>> factory);
+
+			/**
+			 * {@return the dynamic registry manager}
+			 */
+			@Contract(pure = true)
+			@NotNull DynamicRegistryManager getRegistryManager();
 		}
 	}
 

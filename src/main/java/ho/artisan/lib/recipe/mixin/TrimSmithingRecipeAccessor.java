@@ -14,26 +14,22 @@
  * limitations under the License.
  */
 
-package ho.artisan.lib.recipe.api.serializer;
+package ho.artisan.lib.recipe.mixin;
 
-import com.google.gson.JsonObject;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.SmithingTrimRecipe;
 
-/**
- * Represents a recipe serializer for mods to implement.
- * <p>
- * This will allow serialization to JSON of recipes. Useful for recipe dumping.
- *
- * @param <T> the recipe
- */
-public interface FabricRecipeSerializer<T extends Recipe<?>> extends RecipeSerializer<T> {
-	/**
-	 * Serializes the recipe to JSON.
-	 *
-	 * @param recipe the recipe
-	 * @return the serialized recipe
-	 */
-	JsonObject toJson(T recipe);
+@Mixin(SmithingTrimRecipe.class)
+public interface TrimSmithingRecipeAccessor {
+	@Accessor
+	Ingredient getTemplate();
+
+	@Accessor
+	Ingredient getBase();
+
+	@Accessor
+	Ingredient getAddition();
 }

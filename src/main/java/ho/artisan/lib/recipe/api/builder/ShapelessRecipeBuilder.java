@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.ShapelessRecipe;
-import net.minecraft.tag.TagKey;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 
@@ -33,6 +34,7 @@ import net.minecraft.util.collection.DefaultedList;
  */
 public class ShapelessRecipeBuilder extends RecipeBuilder<ShapelessRecipeBuilder, ShapelessRecipe> {
 	private final Set<Ingredient> ingredients = new HashSet<>();
+	private CraftingRecipeCategory category = CraftingRecipeCategory.MISC;
 
 	public ShapelessRecipeBuilder(ItemStack output) {
 		this.output = output;
@@ -67,7 +69,7 @@ public class ShapelessRecipeBuilder extends RecipeBuilder<ShapelessRecipeBuilder
 	 * @param tag the item tag as ingredient
 	 * @return this builder
 	 * @see #ingredient(Ingredient)
-	 * @see Ingredient#fromTag(TagKey) (TagKey)
+	 * @see Ingredient#fromTag(TagKey)
 	 */
 	public ShapelessRecipeBuilder ingredient(TagKey<Item> tag) {
 		return this.ingredient(Ingredient.fromTag(tag));
@@ -83,6 +85,19 @@ public class ShapelessRecipeBuilder extends RecipeBuilder<ShapelessRecipeBuilder
 	 */
 	public ShapelessRecipeBuilder ingredient(ItemStack... stacks) {
 		return this.ingredient(Ingredient.ofStacks(stacks));
+	}
+
+	/**
+	 * Sets the crafting book category of this recipe.
+	 * <p>
+	 * Default value is {@link CraftingRecipeCategory#MISC}.
+	 *
+	 * @param category the category
+	 * @return this builder
+	 */
+	public ShapelessRecipeBuilder category(CraftingRecipeCategory category) {
+		this.category = category;
+		return this;
 	}
 
 	/**
@@ -105,6 +120,6 @@ public class ShapelessRecipeBuilder extends RecipeBuilder<ShapelessRecipeBuilder
 			i++;
 		}
 
-		return new ShapelessRecipe(id, group, this.output, ingredients);
+		return new ShapelessRecipe(id, group, this.category, this.output, ingredients);
 	}
 }

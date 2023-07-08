@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package ho.artisan.lib.recipe.mixin;
 import com.google.gson.JsonObject;
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.CookingRecipeSerializer;
+import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 
 import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 
@@ -29,8 +29,8 @@ import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 public abstract class CookingRecipeSerializerMixin<T extends AbstractCookingRecipe> implements FabricRecipeSerializer<T> {
 	@Override
 	public JsonObject toJson(T recipe) {
-		return new CookingRecipeJsonBuilder.CookingRecipeJsonProvider(recipe.getId(), recipe.getGroup(),
-				recipe.getIngredients().get(0), recipe.getOutput().getItem(),
+		return new CookingRecipeJsonBuilder.CookingRecipeJsonProvider(recipe.getId(), recipe.getGroup(), recipe.getCategory(),
+				recipe.getIngredients().get(0), recipe.getOutput(null).getItem(),
 				recipe.getExperience(), recipe.getCookTime(), null, null, this)
 				.toJson();
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,34 +30,35 @@ import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.logging.LogUtils;
+import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import ho.artisan.lib.recipe.api.RecipeLoadingEvents;
-import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
+
+import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistryView;
+import net.fabricmc.loader.api.FabricLoader;
 
 @ApiStatus.Internal
-public final class RecipeManagerImpl {
+public final class RecipeManagerImpl implements DynamicRegistrySetupCallback {
 	/**
-	 * Stores the static recipes which are added to the {@link RecipeManager} when recipes are
+	 * Stores the static recipes which are added to the {@link net.minecraft.recipe.RecipeManager} when recipes are
 	 * loaded.
 	 */
 	private static final Map<Identifier, Recipe<?>> STATIC_RECIPES = new Object2ObjectOpenHashMap<>();
-	static final boolean DEBUG_MODE = Boolean.getBoolean("rip.recipe.debug");
-	private static final boolean DUMP_MODE = Boolean.getBoolean("rip.recipe.dump");
+	static final boolean DEBUG_MODE = Boolean.getBoolean("quilt.recipe.debug");
+	private static final boolean DUMP_MODE = Boolean.getBoolean("quilt.recipe.dump");
 	static final Logger LOGGER = LogUtils.getLogger();
-
-	private RecipeManagerImpl() {
-		throw new UnsupportedOperationException("RecipeManagerImpl only contains static definitions.");
-	}
+	private static DynamicRegistryManager currentRegistryManager;
 
 	public static void registerStaticRecipe(Recipe<?> recipe) {
 		if (STATIC_RECIPES.putIfAbsent(recipe.getId(), recipe) != null) {
@@ -69,7 +70,7 @@ public final class RecipeManagerImpl {
 	public static void apply(Map<Identifier, JsonElement> map,
 			Map<RecipeType<?>, ImmutableMap.Builder<Identifier, Recipe<?>>> builderMap,
 			ImmutableMap.Builder<Identifier, Recipe<?>> globalRecipeMapBuilder) {
-		var handler = new RegisterRecipeHandlerImpl(map, builderMap, globalRecipeMapBuilder);
+		var handler = new RegisterRecipeHandlerImpl(map, builderMap, globalRecipeMapBuilder, currentRegistryManager);
 		RecipeLoadingEvents.ADD.invoker().addRecipes(handler);
 		STATIC_RECIPES.values().forEach(handler::tryRegister);
 		LOGGER.info("Registered {} custom recipes.", handler.registered);
@@ -78,11 +79,11 @@ public final class RecipeManagerImpl {
 	public static void applyModifications(RecipeManager recipeManager,
 			Map<RecipeType<?>, Map<Identifier, Recipe<?>>> recipes,
 			Map<Identifier, Recipe<?>> globalRecipes) {
-		var handler = new ModifyRecipeHandlerImpl(recipeManager, recipes, globalRecipes);
+		var handler = new ModifyRecipeHandlerImpl(recipeManager, recipes, globalRecipes, currentRegistryManager);
 		RecipeLoadingEvents.MODIFY.invoker().modifyRecipes(handler);
 		LOGGER.info("Modified {} recipes.", handler.counter);
 
-		var removeHandler = new RemoveRecipeHandlerImpl(recipeManager, recipes, globalRecipes);
+		var removeHandler = new RemoveRecipeHandlerImpl(recipeManager, recipes, globalRecipes, currentRegistryManager);
 		RecipeLoadingEvents.REMOVE.invoker().removeRecipes(removeHandler);
 		LOGGER.info("Removed {} recipes.", removeHandler.counter);
 
@@ -91,20 +92,22 @@ public final class RecipeManagerImpl {
 		}
 
 		if (DEBUG_MODE || FabricLoader.getInstance().isDevelopmentEnvironment()) {
-			for (var serializerEntry : Registry.RECIPE_SERIALIZER.getEntrySet()) {
+			for (var serializerEntry : Registries.RECIPE_SERIALIZER.getEntrySet()) {
 				if (!(serializerEntry.getValue() instanceof FabricRecipeSerializer)) {
 					LOGGER.warn(
-							"Recipe serializer {} doesn't implement QuiltRecipeSerializer. For full compatibility, the interface should be implemented.",
+							"Recipe serializer {} doesn't implement FabricRecipeSerializer. For full compatibility, the interface should be implemented.",
 							serializerEntry.getKey().getValue()
 					);
 				}
 			}
 		}
+
+		currentRegistryManager = null;
 	}
 
 	@SuppressWarnings("unchecked")
 	private static void dump(Map<Identifier, Recipe<?>> recipes) {
-		Path debugPath = Paths.get("debug", "rip", "recipe").normalize();
+		Path debugPath = Paths.get("debug", "quilt", "recipe").normalize();
 
 		if (!Files.exists(debugPath)) {
 			try {
@@ -153,5 +156,10 @@ public final class RecipeManagerImpl {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void onRegistrySetup(DynamicRegistryView registryView) {
+		currentRegistryManager = (DynamicRegistryManager) registryView;
 	}
 }

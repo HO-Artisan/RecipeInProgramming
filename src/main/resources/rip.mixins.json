@@ -4,13 +4,15 @@
   "package": "ho.artisan.lib.recipe.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "TransformSmithingRecipeAccessor",
+    "TrimSmithingRecipeAccessor",
+    "TransformSmithingRecipeJsonProviderMixin",
+    "TrimSmithingRecipeSerializerMixin",
     "CookingRecipeSerializerMixin",
     "CuttingRecipeSerializerMixin",
     "RecipeManagerMixin",
     "ShapedRecipeSerializerMixin",
     "ShapelessRecipeSerializerMixin",
-    "SmithingRecipeAccessor",
-    "SmithingRecipeSerializerMixin",
     "SpecialRecipeSerializerMixin"
   ],
   "client": [

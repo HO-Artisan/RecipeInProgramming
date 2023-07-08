@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@ package ho.artisan.lib.recipe.mixin;
 import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
-import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2CharOpenHashMap;
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 
+import ho.artisan.lib.recipe.api.serializer.FabricRecipeSerializer;
 
 @Mixin(ShapedRecipe.Serializer.class)
 public abstract class ShapedRecipeSerializerMixin implements FabricRecipeSerializer<ShapedRecipe> {
@@ -63,16 +63,18 @@ public abstract class ShapedRecipeSerializerMixin implements FabricRecipeSeriali
 
 		pattern.add(patternLine.toString());
 
+		var result = recipe.getOutput(null);
 
 		return new ShapedRecipeJsonBuilder.ShapedRecipeJsonProvider(
 				recipe.getId(),
-				recipe.getOutput().getItem(),
-				recipe.getOutput().getCount(),
+				result.getItem(),
+				result.getCount(),
 				recipe.getGroup(),
+				recipe.getCategory(),
 				pattern,
 				inputs,
-				null, null
+				null, null,
+				recipe.showNotification()
 		).toJson();
-		//return null;
 	}
 }

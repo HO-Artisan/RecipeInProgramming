@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 QuiltMC
+ * Copyright 2022 The Quilt Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.tag.TagKey;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 
@@ -36,6 +37,7 @@ public class ShapedRecipeBuilder extends RecipeBuilder<ShapedRecipeBuilder, Shap
 	private final int width;
 	private final int height;
 	private final Char2ObjectMap<Ingredient> ingredients = new Char2ObjectOpenHashMap<>();
+	private CraftingRecipeCategory category = CraftingRecipeCategory.MISC;
 
 	/**
 	 * Creates a new shaped recipe builder.
@@ -102,7 +104,7 @@ public class ShapedRecipeBuilder extends RecipeBuilder<ShapedRecipeBuilder, Shap
 	 * @param tag the item tag as ingredient
 	 * @return this builder
 	 * @see #ingredient(char, Ingredient)
-	 * @see Ingredient#fromTag(TagKey) (TagKey)
+	 * @see Ingredient#fromTag(TagKey)
 	 */
 	public ShapedRecipeBuilder ingredient(char key, TagKey<Item> tag) {
 		return this.ingredient(key, Ingredient.fromTag(tag));
@@ -122,6 +124,19 @@ public class ShapedRecipeBuilder extends RecipeBuilder<ShapedRecipeBuilder, Shap
 	}
 
 	/**
+	 * Sets the crafting book category of this recipe.
+	 * <p>
+	 * Default value is {@link CraftingRecipeCategory#MISC}.
+	 *
+	 * @param category the category
+	 * @return this builder
+	 */
+	public ShapedRecipeBuilder category(CraftingRecipeCategory category) {
+		this.category = category;
+		return this;
+	}
+
+	/**
 	 * Builds the shaped crafting recipe.
 	 *
 	 * @param id    the identifier of the recipe
@@ -132,6 +147,6 @@ public class ShapedRecipeBuilder extends RecipeBuilder<ShapedRecipeBuilder, Shap
 	public ShapedRecipe build(Identifier id, String group) {
 		this.checkOutputItem();
 		DefaultedList<Ingredient> ingredients = VanillaRecipeBuilders.getIngredients(this.pattern, this.ingredients, this.width, this.height);
-		return new ShapedRecipe(id, group, this.width, this.height, ingredients, this.output);
+		return new ShapedRecipe(id, group, this.category, this.width, this.height, ingredients, this.output);
 	}
 }
