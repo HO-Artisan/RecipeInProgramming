@@ -9,7 +9,7 @@
 </div>
 
 > [!NOTE]
-> Quilt is unsupported since these functions are natively included in the [**Quilt Standard Libraries.**](https://github.com/QuiltMC/quilt-standard-libraries) You can regard **Recipe in Programming** as a port of the **QSL Recipe API** to Fabric.
+> Quilt is unsupported since these functions are natively included in the **[Quilt Standard Libraries.](https://github.com/QuiltMC/quilt-standard-libraries)** You can regard **Recipe in Programming** as a port of the **QSL Recipe API** to Fabric.
 
 ## Use In Your Project
 
