@@ -3,20 +3,19 @@
 
 <img height="200" width="200" src="./icon/400x400-icon.png" alt="RecipeInProgramming Icon"/>
 
-# RecipeInProgramming
+# Recipe in Programming
 
-A Lib mod, Take the add Recipe(Data) function to fabric event, so you can use the event to register recipes, and make some JSON can't do contents(Infinity Recipes).
+###### A Library that Brings the `Add Recipe(Data)` Function to Fabric, Enabling You to Register Recipes by Events, Making Some *JSON-Can't-Do* Magic.
 
-Un-support Quilt, Because Quilt was added this feature, I port it to Fabric.
+> [!NOTE]
+> Quilt is unsupported since these functions are natively included in the [**Quilt Standard Libraries.**](https://github.com/QuiltMC/quilt-standard-libraries) You can regard **Recipe in Programming** as a port of the **QSL Recipe API** to Fabric.
 
 </div>
 </center>
 
-## Use in your project
-We use jitpack maven (Temporary)
+## Use In Your Project
 
 ```groovy
-
 repositories {
     maven { url "https://jitpack.io" }
 }
@@ -24,7 +23,6 @@ repositories {
 dependencies {
     modImplementation "com.github.HO-Artisan:RecipeInProgramming:Tag"
 }
-
 ```
 
 ## Features
